@@ -1,5 +1,6 @@
 local backpacks = {}
 
+--[[
 minetest.register_on_joinplayer(function(player)
 	local inv = minetest.create_detached_inventory("backpack_" .. player:get_player_name(), {
 		allow_put = function(inv, listname, index, stack, player)
@@ -12,10 +13,7 @@ minetest.register_on_joinplayer(function(player)
 	})
 	inv:set_size("main", 8*4)
 end)
-
-
-
-
+--]]
 
 backpacks.form = "size[8,9]" ..
 	default.gui_bg_img ..
@@ -25,9 +23,6 @@ backpacks.form = "size[8,9]" ..
 	"list[current_player;main;0,6.08;8,3;8]" ..
 	"listring[current_name;main]" ..
 	"listring[current_player;main]"
-
-
-
 backpacks.on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("infotext", "Backpack")
@@ -35,7 +30,6 @@ backpacks.on_construct = function(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("main", 8*4)
 end
-
 backpacks.after_place_node = function(pos, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
 	local stuff = minetest.deserialize(itemstack:get_metadata())
@@ -44,7 +38,6 @@ backpacks.after_place_node = function(pos, placer, itemstack, pointed_thing)
 	end
 	itemstack:take_item()
 end
-
 backpacks.on_dig = function(pos, node, digger)
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
@@ -77,9 +70,6 @@ backpacks.on_dig = function(pos, node, digger)
 		minetest.add_item(pos, new)
 	end
 end
-
-
-
 backpacks.allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 	if not string.match(stack:get_name(), "backpacks:backpack_") then
 		return stack:get_count()
@@ -88,99 +78,90 @@ backpacks.allow_metadata_inventory_put = function(pos, listname, index, stack, p
 	end
 end
 
-
-
-
-
--- Wool Backpacks
---for _, v in ipairs(dye.dyes) do
-	minetest.register_node("backpacks:backpack_wool", {
-		description = "Wool Backpack",
-		tiles = {
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_topbottom.png", -- Top
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_topbottom.png", -- Bottom
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_sides.png", -- Right Side
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_sides.png", -- Left Side
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_back.png", -- Back
-			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_front.png"-- Front
-		},
-		drawtype = "nodebox",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
-				{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
-				{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
-				{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
-				{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
-				{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
-				{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
-				{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
-				{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
-			}
-		},
-		groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
-		stack_max = 1,
-		on_construct = backpacks.on_construct,
-		after_place_node = backpacks.after_place_node,
-		on_dig = backpacks.on_dig,
-		allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
-	})
-
-	minetest.register_craft({
-		output = "backpacks:backpack_wool_" .. v[1],
-		recipe = {
-			{"wool:" .. v[1], "wool:" .. v[1], "wool:" .. v[1]},
-			{"wool:" .. v[1], "", "wool:" .. v[1]},
-			{"wool:" .. v[1], "wool:".. v[1], "wool:" .. v[1]},
+-- Wool backpack
+minetest.register_node("backpacks:backpack_wool", {
+	description = "Wool Backpack",
+	tiles = {
+		"wool_white.png^backpacks_backpack_wool_topbottom.png", -- Top
+		"wool_white.png^backpacks_backpack_wool_topbottom.png", -- Bottom
+		"wool_white.png^backpacks_backpack_wool_sides.png", -- Right Side
+		"wool_white.png^backpacks_backpack_wool_sides.png", -- Left Side
+		"wool_white.png^backpacks_backpack_wool_back.png", -- Back
+		"wool_white.png^backpacks_backpack_wool_front.png"-- Front
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
+			{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
+			{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
+			{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
+			{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
+			{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
+			{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
+			{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
+			{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
 		}
-	})
---end
+	},
+	groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
+	stack_max = 1,
+	on_construct = backpacks.on_construct,
+	after_place_node = backpacks.after_place_node,
+	on_dig = backpacks.on_dig,
+	allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
+})
+minetest.register_craft({
+	output = "backpacks:backpack_wool_" .. v[1],
+	recipe = {
+		{"wool:" .. v[1], "wool:" .. v[1], "wool:" .. v[1]},
+		{"wool:" .. v[1], "", "wool:" .. v[1]},
+		{"wool:" .. v[1], "wool:".. v[1], "wool:" .. v[1]},
+	}
+})
 
---if minetest.get_modpath("mobs") then
-	minetest.register_node("backpacks:backpack_leather", {
-		description = "Backpack (Leather)",
-		tiles = {
-			"backpacks_backpack_leather.png", -- Top
-			"backpacks_backpack_leather.png", -- Bottom
-			"backpacks_backpack_leather.png", -- Right Side
-			"backpacks_backpack_leather.png", -- Left Side
-			"backpacks_backpack_leather.png", -- Back
-			"backpacks_backpack_leather.png", -- Front
-		},
-		drawtype = "nodebox",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
-				{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
-				{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
-				{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
-				{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
-				{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
-				{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
-				{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
-				{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
-			}
-		},
-		groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
-		stack_max = 1,
-		on_construct = backpacks.on_construct,
-		after_place_node = backpacks.after_place_node,
-		on_dig = backpacks.on_dig,
-		allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
-	})
-
-	minetest.register_craft({
-		output = "backpacks:backpack_leather",
-		recipe = {
-			{"mobs:leather", "mobs:leather", "mobs:leather"},
-			{"mobs:leather", "", "mobs:leather"},
-			{"mobs:leather", "mobs:leather", "mobs:leather"},
+-- Leather backpack
+minetest.register_node("backpacks:backpack_leather", {
+	description = "Backpack (Leather)",
+	tiles = {
+		"backpacks_backpack_leather.png", -- Top
+		"backpacks_backpack_leather.png", -- Bottom
+		"backpacks_backpack_leather.png", -- Right Side
+		"backpacks_backpack_leather.png", -- Left Side
+		"backpacks_backpack_leather.png", -- Back
+		"backpacks_backpack_leather.png", -- Front
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
+			{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
+			{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
+			{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
+			{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
+			{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
+			{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
+			{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
+			{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
 		}
-	})
---end
+	},
+	groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
+	stack_max = 1,
+	on_construct = backpacks.on_construct,
+	after_place_node = backpacks.after_place_node,
+	on_dig = backpacks.on_dig,
+	allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
+})
+minetest.register_craft({
+	output = "backpacks:backpack_leather",
+	recipe = {
+		{"mobs:leather", "mobs:leather", "mobs:leather"},
+		{"mobs:leather", "", "mobs:leather"},
+		{"mobs:leather", "mobs:leather", "mobs:leather"},
+	}
+})
