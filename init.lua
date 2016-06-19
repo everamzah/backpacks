@@ -1,3 +1,5 @@
+local backpacks = {}
+
 minetest.register_on_joinplayer(function(player)
 	local inv = minetest.create_detached_inventory("backpack_" .. player:get_player_name(), {
 		allow_put = function(inv, listname, index, stack, player)
@@ -11,7 +13,9 @@ minetest.register_on_joinplayer(function(player)
 	inv:set_size("main", 8*4)
 end)
 
-local backpacks = {}
+
+
+
 
 backpacks.form = "size[8,9]" ..
 	default.gui_bg_img ..
@@ -21,6 +25,8 @@ backpacks.form = "size[8,9]" ..
 	"list[current_player;main;0,6.08;8,3;8]" ..
 	"listring[current_name;main]" ..
 	"listring[current_player;main]"
+
+
 
 backpacks.on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
@@ -72,6 +78,8 @@ backpacks.on_dig = function(pos, node, digger)
 	end
 end
 
+
+
 backpacks.allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 	if not string.match(stack:get_name(), "backpacks:backpack_") then
 		return stack:get_count()
@@ -80,10 +88,14 @@ backpacks.allow_metadata_inventory_put = function(pos, listname, index, stack, p
 	end
 end
 
+
+
+
+
 -- Wool Backpacks
-for _, v in ipairs(dye.dyes) do
-	minetest.register_node("backpacks:backpack_wool_" .. v[1], {
-		description = "Backpack (" .. v[2] .. " Wool)",
+--for _, v in ipairs(dye.dyes) do
+	minetest.register_node("backpacks:backpack_wool", {
+		description = "Wool Backpack",
 		tiles = {
 			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_topbottom.png", -- Top
 			"wool_" .. v[1] .. ".png^backpacks_backpack_wool_topbottom.png", -- Bottom
@@ -125,9 +137,9 @@ for _, v in ipairs(dye.dyes) do
 			{"wool:" .. v[1], "wool:".. v[1], "wool:" .. v[1]},
 		}
 	})
-end
+--end
 
-if minetest.get_modpath("mobs") then
+--if minetest.get_modpath("mobs") then
 	minetest.register_node("backpacks:backpack_leather", {
 		description = "Backpack (Leather)",
 		tiles = {
@@ -171,4 +183,4 @@ if minetest.get_modpath("mobs") then
 			{"mobs:leather", "mobs:leather", "mobs:leather"},
 		}
 	})
-end
+--end
