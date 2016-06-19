@@ -1,26 +1,12 @@
 local backpacks = {}
 
---[[
-minetest.register_on_joinplayer(function(player)
-	local inv = minetest.create_detached_inventory("backpack_" .. player:get_player_name(), {
-		allow_put = function(inv, listname, index, stack, player)
-			if string.match(stack:get_name(), "backpacks:backpack_") then
-				return 0
-			else
-				return stack:get_count()
-			end
-		end,
-	})
-	inv:set_size("main", 8*4)
-end)
---]]
-
-backpacks.form = "size[8,9]" ..
+backpacks.form = "size[8,7]" ..
+	default.gui_bg ..
 	default.gui_bg_img ..
 	default.gui_slots ..
-	"list[current_name;main;0,0.3;8,4]" ..
-	"list[current_player;main;0,4.85;8,1]" ..
-	"list[current_player;main;0,6.08;8,3;8]" ..
+	"list[current_name;main;0,0.3;8,2]" ..
+	"list[current_player;main;0,2.85;8,1]" ..
+	"list[current_player;main;0,4.08;8,3;8]" ..
 	"listring[current_name;main]" ..
 	"listring[current_player;main]"
 backpacks.on_construct = function(pos)
@@ -28,7 +14,7 @@ backpacks.on_construct = function(pos)
 	meta:set_string("infotext", "Backpack")
 	meta:set_string("formspec", backpacks.form)
 	local inv = meta:get_inventory()
-	inv:set_size("main", 8*4)
+	inv:set_size("main", 8*2)
 end
 backpacks.after_place_node = function(pos, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
@@ -44,7 +30,6 @@ backpacks.on_dig = function(pos, node, digger)
 	end
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-
 	local list = {}
 	for i, stack in ipairs(inv:get_list("main")) do
 		if stack:get_name() == "" then
@@ -53,16 +38,12 @@ backpacks.on_dig = function(pos, node, digger)
 			list[i] = stack:to_string()
 		end
 	end
-
 	local new_list = {inventory = {main = list},
 			fields = {infotext = "Backpack", formspec = backpacks.form}}
 	local new_list_as_string = minetest.serialize(new_list)
-
 	local new = ItemStack(node)
 	new:set_metadata(new_list_as_string)
-
 	minetest.remove_node(pos)
-
 	local player_inv = digger:get_inventory()
 	if player_inv:room_for_item("main", new) then
 		player_inv:add_item("main", new)
@@ -82,12 +63,12 @@ end
 minetest.register_node("backpacks:backpack_wool", {
 	description = "Wool Backpack",
 	tiles = {
-		"wool_white.png^backpacks_backpack_wool_topbottom.png", -- Top
-		"wool_white.png^backpacks_backpack_wool_topbottom.png", -- Bottom
-		"wool_white.png^backpacks_backpack_wool_sides.png", -- Right Side
-		"wool_white.png^backpacks_backpack_wool_sides.png", -- Left Side
-		"wool_white.png^backpacks_backpack_wool_back.png", -- Back
-		"wool_white.png^backpacks_backpack_wool_front.png"-- Front
+		"wool_white.png^backpacks_backpack_topbottom.png", -- Top
+		"wool_white.png^backpacks_backpack_topbottom.png", -- Bottom
+		"wool_white.png^backpacks_backpack_sides.png",     -- Right Side
+		"wool_white.png^backpacks_backpack_sides.png",     -- Left Side
+		"wool_white.png^backpacks_backpack_back.png",      -- Back
+		"wool_white.png^backpacks_backpack_front.png"      -- Front
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -114,24 +95,24 @@ minetest.register_node("backpacks:backpack_wool", {
 	allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
 })
 minetest.register_craft({
-	output = "backpacks:backpack_wool_" .. v[1],
+	output = "backpacks:backpack_wool",
 	recipe = {
-		{"wool:" .. v[1], "wool:" .. v[1], "wool:" .. v[1]},
-		{"wool:" .. v[1], "", "wool:" .. v[1]},
-		{"wool:" .. v[1], "wool:".. v[1], "wool:" .. v[1]},
+		{"wool:white", "wool:white", "wool:white"},
+		{"wool:white", "", "wool:white"},
+		{"wool:white", "wool:white", "wool:white"},
 	}
 })
 
 -- Leather backpack
 minetest.register_node("backpacks:backpack_leather", {
-	description = "Backpack (Leather)",
+	description = "Leather Backpack",
 	tiles = {
-		"backpacks_backpack_leather.png", -- Top
-		"backpacks_backpack_leather.png", -- Bottom
-		"backpacks_backpack_leather.png", -- Right Side
-		"backpacks_backpack_leather.png", -- Left Side
-		"backpacks_backpack_leather.png", -- Back
-		"backpacks_backpack_leather.png", -- Front
+		"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Top
+		"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Bottom
+		"backpacks_leather.png^backpacks_backpack_sides.png",     -- Right Side
+		"backpacks_leather.png^backpacks_backpack_sides.png",     -- Left Side
+		"backpacks_leather.png^backpacks_backpack_back.png",      -- Back
+		"backpacks_leather.png^backpacks_backpack_front.png"      -- Front
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
