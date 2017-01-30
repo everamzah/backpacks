@@ -133,8 +133,7 @@ for _,colourdesc in pairs(wooldyes) do
 end
 minetest.register_alias("backpacks:backpack_wool", "backpacks:backpack_wool_white")
 
-
-if mobs and mobs.redo then
+if minetest.get_modpath("mobs") and mobs and mobs.redo then
 	-- Leather backpack
 	minetest.register_node("backpacks:backpack_leather", {
 		description = "Leather Backpack",
