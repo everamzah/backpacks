@@ -133,42 +133,42 @@ for _,colourdesc in pairs(wooldyes) do
 end
 minetest.register_alias("backpacks:backpack_wool", "backpacks:backpack_wool_white")
 
+-- Leather backpack
+minetest.register_node("backpacks:backpack_leather", {
+	description = "Leather Backpack",
+	tiles = {
+		"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Top
+		"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Bottom
+		"backpacks_leather.png^backpacks_backpack_sides.png",     -- Right Side
+		"backpacks_leather.png^backpacks_backpack_sides.png",     -- Left Side
+		"backpacks_leather.png^backpacks_backpack_back.png",      -- Back
+		"backpacks_leather.png^backpacks_backpack_front.png"      -- Front
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
+			{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
+			{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
+			{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
+			{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
+			{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
+			{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
+			{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
+			{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
+		}
+	},
+	groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
+	stack_max = 1,
+	on_construct = backpacks.on_construct,
+	after_place_node = backpacks.after_place_node,
+	on_dig = backpacks.on_dig,
+	allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
+})
 if minetest.get_modpath("mobs") and mobs and mobs.redo then
-	-- Leather backpack
-	minetest.register_node("backpacks:backpack_leather", {
-		description = "Leather Backpack",
-		tiles = {
-			"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Top
-			"backpacks_leather.png^backpacks_backpack_topbottom.png", -- Bottom
-			"backpacks_leather.png^backpacks_backpack_sides.png",     -- Right Side
-			"backpacks_leather.png^backpacks_backpack_sides.png",     -- Left Side
-			"backpacks_leather.png^backpacks_backpack_back.png",      -- Back
-			"backpacks_leather.png^backpacks_backpack_front.png"      -- Front
-		},
-		drawtype = "nodebox",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4375, -0.5, -0.375, 0.4375, 0.5, 0.375},
-				{0.125, -0.375, 0.4375, 0.375, 0.3125, 0.5},
-				{-0.375, -0.375, 0.4375, -0.125, 0.3125, 0.5},
-				{0.125, 0.1875, 0.375, 0.375, 0.375, 0.4375},
-				{-0.375, 0.1875, 0.375, -0.125, 0.375, 0.4375},
-				{0.125, -0.375, 0.375, 0.375, -0.25, 0.4375},
-				{-0.375, -0.375, 0.375, -0.125, -0.25, 0.4375},
-				{-0.3125, -0.375, -0.4375, 0.3125, 0.1875, -0.375},
-				{-0.25, -0.3125, -0.5, 0.25, 0.125, -0.4375},
-			}
-		},
-		groups = {dig_immediate = 3, oddly_diggable_by_hand = 3},
-		stack_max = 1,
-		on_construct = backpacks.on_construct,
-		after_place_node = backpacks.after_place_node,
-		on_dig = backpacks.on_dig,
-		allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
-	})
 	minetest.register_craft({
 		output = "backpacks:backpack_leather",
 		recipe = {
