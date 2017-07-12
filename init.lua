@@ -168,7 +168,8 @@ minetest.register_node("backpacks:backpack_leather", {
 	on_dig = backpacks.on_dig,
 	allow_metadata_inventory_put = backpacks.allow_metadata_inventory_put,
 })
-if minetest.get_modpath("mobs") and mobs and mobs.redo then
+
+if mobs and ( mobs.redo or mobs.mod == 'redo') then
 	minetest.register_craft({
 		output = "backpacks:backpack_leather",
 		recipe = {
